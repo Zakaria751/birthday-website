@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Happy birthday Saloma ❤️</title>
+<meta name="description" content="A little interactive birthday movie, made just for you." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<!-- Persistent ambient layer: soft grain + vignette, sits behind everything -->
+<div class="ambient-grain" aria-hidden="true"></div>
+
+<main id="app">
+
+  <!-- ============ SCENE 1 — INTRO ============ -->
+  <section id="intro-scene" class="scene active" aria-label="Birthday intro">
+    <div class="scene-inner intro-inner">
+
+      <div class="stage">
+
+        <!-- pink heart, drawn behind the cake -->
+        <svg class="heart-svg" viewBox="0 0 200 180" aria-hidden="true">
+          <defs>
+            <linearGradient id="heartFill" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff9ac6"/>
+              <stop offset="100%" stop-color="#c9b6ff"/>
+            </linearGradient>
+            <filter id="heartGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="4.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path id="heartPath" class="heart-path"
+            d="M100,172 C70,146 18,110 18,66 C18,38 40,18 66,18 C82,18 94,26 100,38 C106,26 118,18 134,18 C160,18 182,38 182,66 C182,110 130,146 100,172 Z"
+            fill="none" />
+          <path id="heartFillPath" class="heart-fill-path"
+            d="M100,172 C70,146 18,110 18,66 C18,38 40,18 66,18 C82,18 94,26 100,38 C106,26 118,18 134,18 C160,18 182,38 182,66 C182,110 130,146 100,172 Z"
+            fill="url(#heartFill)" />
+        </svg>
+
+        <div class="heart-sparkles" aria-hidden="true"></div>
+
+        <p class="heart-message" id="heartMessage" aria-live="polite">Happiest of birthdays to you ya a7la saloma <span class="heart-emoji">💗</span></p>
+
+        <!-- cake, built entirely from CSS shapes -->
+        <div class="cake-wrap" aria-hidden="true">
+          <div class="cake">
+            <div class="candles" id="candles">
+              <!-- candles injected by JS -->
+            </div>
+            <div class="cake-tier cake-tier--top">
+              <span class="cake-sprinkle"></span>
+              <span class="cake-sprinkle"></span>
+              <span class="cake-sprinkle"></span>
+              <span class="cake-sprinkle"></span>
+              <span class="cake-sprinkle"></span>
+              <span class="cake-sprinkle"></span>
+            </div>
+            <div class="cake-tier cake-tier--base">
+              <span class="cake-drip"></span>
+              <span class="cake-drip"></span>
+              <span class="cake-drip"></span>
+              <span class="cake-drip"></span>
+            </div>
+            <div class="cake-plate"></div>
+            <div class="cake-shadow"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 2 — GIFT + MESSAGE ============ -->
+  <section id="birthday-scene" class="scene" aria-label="Birthday gift and message">
+    <div class="floaty-field" id="floatyFieldBirthday" aria-hidden="true"></div>
+
+    <div class="scene-inner">
+
+      <div class="gift-stage">
+        <button class="gift-btn" id="giftBtn" type="button" aria-label="Tap to open your gift">
+          <span class="gift-hint" id="giftHint">tap to open ✨</span>
+          <div class="gift" id="gift">
+            <div class="gift-glow"></div>
+            <div class="gift-lid">
+              <span class="ribbon-v"></span>
+              <span class="ribbon-bow" aria-hidden="true">
+                <span class="bow-loop bow-loop--l"></span>
+                <span class="bow-loop bow-loop--r"></span>
+                <span class="bow-knot"></span>
+              </span>
+            </div>
+            <div class="gift-box">
+              <span class="ribbon-v ribbon-v--body"></span>
+            </div>
+          </div>
+        </button>
+        <div class="burst-field" id="burstField" aria-hidden="true"></div>
+      </div>
+
+      <div class="message-block" id="messageBlock">
+        <h1 class="headline" id="mainHeadline">Happy Birthday to you, my most precious person in the world <span class="heart-emoji">💗</span></h1>
+
+        <div class="story-text" id="storyText">
+          <p class="story-line">I appreciate every single moment we've shared together —</p>
+          <p class="story-line">through the good times and the bad ones,</p>
+          <p class="story-line">the concerts, the random hangouts,</p>
+          <p class="story-line">the endless gossip,</p>
+          <p class="story-line">the fights,</p>
+          <p class="story-line">the moments we got mad at each other,</p>
+          <p class="story-line">and all the crazy little moments where we just had fun.</p>
+          <p class="story-line story-line--pause">Thank you for being there through all of it.</p>
+          <p class="story-line story-line--emph">Life is definitely more fun, more chaotic, and a lot more beautiful with you in it. <span class="hand-emoji">🫶🏻</span></p>
+        </div>
+
+        <button class="continue-btn" id="continueBtn" type="button">
+          <span>Continue</span> <span class="heart-emoji">💗</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCENE 3 — MEMORIES ============ -->
+  <section id="memories-scene" class="scene" aria-label="Our memories">
+    <div class="scene-inner memories-inner">
+
+      <header class="memories-head">
+        <p class="eyebrow">our story, in fragments</p>
+        <h2 class="section-title">All the little moments that became our favorite memories <span class="heart-emoji">💗</span></h2>
+        <p class="section-subtitle">Somehow, all the random little things became the memories I wouldn't trade for anything.</p>
+      </header>
+
+      <div class="memory-grid" id="memoryGrid">
+        <!-- cards injected by JS from CONFIG -->
+      </div>
+
+      <div class="memories-close">
+        <p class="closing-line" id="closingLine">And somehow, through all of it, we're still here. <span class="tear-emoji">🥹</span> <span class="heart-emoji">💗</span></p>
+        <p class="closing-sub">Let's make a lot more memories.</p>
+        <button class="continue-btn continue-btn--ghost" id="toFinalBtn" type="button">
+          <span>One more thing&hellip;</span> <span class="sparkle-char">✨</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCENE 4 — FINAL ============ -->
+  <section id="final-scene" class="scene" aria-label="A final birthday moment">
+    <div class="floaty-field floaty-field--calm" id="floatyFieldFinal" aria-hidden="true"></div>
+
+    <div class="scene-inner final-inner">
+
+      <div class="final-visual">
+        <div class="final-photo-wrap">
+          <div class="final-photo-glow" aria-hidden="true"></div>
+          <img class="final-photo final-photo--big" id="friendPhoto" src="./images/last.jpeg" alt="Birthday girl" />
+          <div class="final-photo-fallback" id="photoFallback" aria-hidden="true">
+            <svg viewBox="0 0 100 100" width="46%" height="46%">
+              <circle cx="50" cy="38" r="18" fill="#fff1f7" opacity="0.9"/>
+              <path d="M20,92 C20,66 34,54 50,54 C66,54 80,66 80,92 Z" fill="#fff1f7" opacity="0.9"/>
+            </svg>
+          </div>
+          <span class="mini-heart mini-heart--1" aria-hidden="true">💗</span>
+          <span class="mini-heart mini-heart--2" aria-hidden="true">✨</span>
+          <span class="mini-heart mini-heart--3" aria-hidden="true">💫</span>
+        </div>
+
+        <div class="final-cake" aria-hidden="true">
+          <div class="final-cake-tier">
+            <div class="final-candle">
+              <div class="final-flame"></div>
+              <div class="flame-glow"></div>
+            </div>
+          </div>
+          <div class="final-cake-base"></div>
+          <div class="final-cake-plate"></div>
+        </div>
+      </div>
+
+      <div class="final-text">
+        <p class="final-line final-line--1">Happy Birthday, my favorite human. <span class="heart-emoji">💗</span></p>
+        <p class="final-line final-line--2">Here's to more concerts, more gossip, more chaos, more laughter, more memories, and many, many more birthdays together. <span class="glass-emoji">🥂✨</span></p>
+        <p class="final-line final-line--3 final-line--strong">I love and appreciate you more than words can explain. <span class="hand-emoji">🫶🏻</span></p>
+      </div>
+
+      <p class="tap-hint" id="finalTapHint" aria-hidden="true">tap anywhere to continue <span class="sparkle-char">✨</span></p>
+
+    </div>
+  </section>
+
+  <!-- ============ SCENE 5 — CREDITS ============ -->
+  <section id="credits-scene" class="scene" aria-label="Credits">
+    <div class="scene-inner credits-inner">
+
+      <div class="credits-heart-stage" id="creditsHeartStage">
+        <svg class="heart-svg" viewBox="0 0 200 180" aria-hidden="true">
+          <path class="heart-path"
+            d="M100,172 C70,146 18,110 18,66 C18,38 40,18 66,18 C82,18 94,26 100,38 C106,26 118,18 134,18 C160,18 182,38 182,66 C182,110 130,146 100,172 Z"
+            fill="none" />
+          <path class="heart-fill-path"
+            d="M100,172 C70,146 18,110 18,66 C18,38 40,18 66,18 C82,18 94,26 100,38 C106,26 118,18 134,18 C160,18 182,38 182,66 C182,110 130,146 100,172 Z"
+            fill="url(#heartFill)" />
+        </svg>
+        <div class="heart-sparkles" id="creditsHeartSparkles" aria-hidden="true"></div>
+      </div>
+
+      <p class="credits-line" id="creditsLine">Made by Zeko <span class="heart-emoji">&lt;3</span></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- fullscreen photo viewer, shared across the memories scene -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close photo">&times;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+</div>
+
+<!-- persistent audio, single instance for the whole site -->
+<audio id="background-music" loop preload="none">
+  <source src="./Audio/Birthday%20song.mp3" type="audio/mpeg" />
+  <source src="./Audio/Birthday%20song.m4a" type="audio/mp4" />
+  <source src="./Audio/Birthday%20song.wav" type="audio/wav" />
+  <source src="./Audio/Birthday%20song.ogg" type="audio/ogg" />
+</audio>
+
+<button id="music-toggle" class="music-toggle" type="button" aria-label="Play birthday music" aria-pressed="false">
+  <span class="music-toggle__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+      <path d="M9 18V6l11-2v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6.5" cy="18" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17.5" cy="16" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+  </span>
+  <span class="music-toggle__ring" aria-hidden="true"></span>
+</button>
+
+<div class="cursor-sparkle" id="cursorSparkle" aria-hidden="true"></div>
+
+<script src="./script.js"></script>
+</body>
+</html>
