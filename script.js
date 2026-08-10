@@ -18,7 +18,7 @@ const CONFIG = {
 
   candleCount: 5,
 
-  heartMessage: "Happiest of birthdays to you ya a7la saloma 💗",
+  heartMessage: "Happy birthday ya a7la saloma 💗",
 
   birthdayMessage: "Happy Birthday to you, my most precious person in the world! 💗"
 };
@@ -96,6 +96,7 @@ function init(){
 
   initGift();
   initFinalTapToContinue();
+  initIntroTapToContinue();
 
   requestAnimationFrame(() => initIntro());
 }
@@ -106,10 +107,15 @@ function init(){
 function initIntro(){
   const stage = document.querySelector(".stage");
   const heartMessage = document.getElementById("heartMessage");
+  const subtitle = document.getElementById("introSubtitle");
 
   const t = state.reducedMotion
     ? { start: 100, cakeDur: 50, candleGap: 60, heartDelay: 100, wishDelay: 200, exitDelay: 900 }
     : { start: 500, cakeDur: 1300, candleGap: 420, heartDelay: 650, wishDelay: 900, exitDelay: 3200 };
+
+  if (subtitle){
+    setTimeout(() => subtitle.classList.add("show"), state.reducedMotion ? 80 : 150);
+  }
 
   setTimeout(() => {
     stage.classList.add("cake-in");
@@ -130,9 +136,22 @@ function initIntro(){
     showWishMessage(heartMessage);
   }, t.start + t.cakeDur * 0.55 + candlesTotalTime + t.heartDelay + t.wishDelay);
 
+  // no auto-advance here — the person taps/clicks anywhere to move on
   setTimeout(() => {
-    transitionToScene("birthday-scene");
+    const hint = document.getElementById("introTapHint");
+    if (hint) hint.classList.add("show");
   }, t.start + t.cakeDur * 0.55 + candlesTotalTime + t.heartDelay + t.wishDelay + t.exitDelay);
+}
+
+// tapping/clicking anywhere on the intro scene advances to the birthday scene
+function initIntroTapToContinue(){
+  const scene = document.getElementById("intro-scene");
+  if (!scene) return;
+  scene.addEventListener("click", () => {
+    if (state.currentScene === "intro-scene"){
+      transitionToScene("birthday-scene");
+    }
+  });
 }
 
 function animateCake(){
@@ -235,11 +254,7 @@ function scatterHeartSparkles(){
 
 function showWishMessage(wishText){
   wishText.classList.add("show");
-  const holdTime = state.reducedMotion ? 150 : 1800;
-  setTimeout(() => {
-    wishText.classList.remove("show");
-    wishText.classList.add("hide");
-  }, holdTime);
+  // stays visible — no longer auto-hides
 }
 
 /* =========================================================

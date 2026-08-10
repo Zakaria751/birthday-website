@@ -164,6 +164,22 @@ img{ max-width: 100%; display: block; }
 
 .intro-inner{ gap: clamp(20px, 4vh, 36px); justify-content: center; min-height: 100%; }
 
+.intro-subtitle{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+  line-height: 1.5;
+  color: rgba(255,241,247,0.8);
+  max-width: 34ch;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out);
+}
+.intro-subtitle.show{ opacity: 1; transform: translateY(0); }
+.intro-subtitle .heart-emoji{ font-size: 0.9em; }
+
 .stage{
   position: relative;
   width: min(78vw, 320px);
@@ -1092,18 +1108,16 @@ img{ max-width: 100%; display: block; }
 }
 
 .tap-hint{
-  position: absolute;
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
+  margin-top: clamp(24px, 5vh, 40px);
   font-size: 0.8rem;
   letter-spacing: 0.03em;
   color: rgba(255,241,247,0.55);
   opacity: 0;
   pointer-events: none;
+  transform: translateY(6px);
   transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
 }
-.tap-hint.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
+.tap-hint.show{ opacity: 1; transform: translateY(0); }
 
 /* =========================================================
    SCENE 5 — CREDITS
