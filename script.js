@@ -359,7 +359,7 @@ function buildVideoBlock(v){
 
   el.innerHTML = `
     <div class="story-media">
-      <video src="${STORY.videosFolder}${v.file}" playsinline muted controls preload="metadata"></video>
+     <video src="${STORY.videosFolder}${v.file}" playsinline muted controls preload="metadata"></video>
     </div>
     <p class="story-caption">${v.caption}</p>
   `;
