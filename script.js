@@ -41,7 +41,7 @@ const STORY = {
     { file: "5.mp4", caption: "And silliest times together" },
     { file: "6.mp4", caption: "To get creativity out of me 💗" },
     { file: "7.mp4", caption: "Spain was amazed by your beauty awww" },
-    { file: "8.mp4", caption: "The silliest yet the cutest you in another universe" },
+    { file: "awww.mp4", caption: "The silliest yet the cutest you in another universe" },
     { file: "you in another universe.mp4", caption: "A random cat i filmed yet it reminds me of you if u were a cat" }
   ],
 
