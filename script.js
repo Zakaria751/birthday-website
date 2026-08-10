@@ -356,14 +356,40 @@ function buildMemoryCards(){
 function buildVideoBlock(v){
   const el = document.createElement("article");
   el.className = "memory-card memory-card--video";
+
   el.innerHTML = `
     <div class="story-media">
-      <video src="${STORY.videosFolder}${v.file}" playsinline controls preload="metadata"></video>
+      <video src="${STORY.videosFolder}${v.file}" playsinline muted controls preload="metadata"></video>
     </div>
     <p class="story-caption">${v.caption}</p>
   `;
+
   const video = el.querySelector("video");
+  const audio = document.getElementById("background-music");
+
+  video.addEventListener("play", () => {
+    if (!audio.paused) {
+      audio.pause();
+      video.dataset.musicWasPlaying = "true";
+    }
+  });
+
+  video.addEventListener("pause", () => {
+    if (video.dataset.musicWasPlaying === "true") {
+      audio.play().catch(() => {});
+      video.dataset.musicWasPlaying = "false";
+    }
+  });
+
+  video.addEventListener("ended", () => {
+    if (video.dataset.musicWasPlaying === "true") {
+      audio.play().catch(() => {});
+      video.dataset.musicWasPlaying = "false";
+    }
+  });
+
   video.addEventListener("error", () => el.remove(), { once: true });
+
   return el;
 }
 
