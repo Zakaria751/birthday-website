@@ -359,7 +359,7 @@ function buildVideoBlock(v){
 
   el.innerHTML = `
     <div class="story-media">
-     <video src="${STORY.videosFolder}${v.file}" playsinline muted controls preload="metadata"></video>
+      <video src="${STORY.videosFolder}${v.file}" playsinline muted controls preload="metadata"></video>
     </div>
     <p class="story-caption">${v.caption}</p>
   `;
@@ -368,23 +368,22 @@ function buildVideoBlock(v){
   const audio = document.getElementById("background-music");
 
   video.addEventListener("play", () => {
-    if (!audio.paused) {
-      audio.pause();
-      video.dataset.musicWasPlaying = "true";
+    video.muted = true;
+
+    if (state.musicStarted && audio.paused) {
+      audio.play().catch(() => {});
     }
   });
 
   video.addEventListener("pause", () => {
-    if (video.dataset.musicWasPlaying === "true") {
+    if (state.musicStarted && audio.paused) {
       audio.play().catch(() => {});
-      video.dataset.musicWasPlaying = "false";
     }
   });
 
   video.addEventListener("ended", () => {
-    if (video.dataset.musicWasPlaying === "true") {
+    if (state.musicStarted && audio.paused) {
       audio.play().catch(() => {});
-      video.dataset.musicWasPlaying = "false";
     }
   });
 
