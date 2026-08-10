@@ -42,7 +42,7 @@ const STORY = {
     { file: "6.mp4", caption: "To get creativity out of me 💗" },
     { file: "7.mp4", caption: "Spain was amazed by your beauty awww" },
     { file: "8.mp4", caption: "The silliest yet the cutest you in another universe" },
-    { file: "9.mp4", caption: "A random cat i filmed yet it reminds me of you if u were a cat" }
+    { file: "you in another universe.mp4", caption: "A random cat i filmed yet it reminds me of you if u were a cat" }
   ],
 
   // groups of photos that share one caption
