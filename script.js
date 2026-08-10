@@ -34,7 +34,7 @@ const STORY = {
   imagesFolder: "./images/",
 
   videos: [
-    { file: "1.mp4", caption: "Hi" },
+    { file: "1.MP4", caption: "Hi" },
     { file: "2.mp4", caption: "Since day 1" },
     { file: "3.mp4", caption: "Our only tiktok together" },
     { file: "4.mp4", caption: "Best times spent together" },
