@@ -36,6 +36,7 @@ const STORY = {
   videos: [
     { file: "1.MP4", caption: "Hi" },
     { file: "2.mp4", caption: "Since day 1" },
+    { file: "8.mp4", caption: "To spend the most beautiful times together 💗" },
     { file: "3.mp4", caption: "Our only tiktok together" },
     { file: "4.mp4", caption: "Best times spent together" },
     { file: "5.mp4", caption: "And silliest times together" },
