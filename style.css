@@ -923,6 +923,14 @@ img{ max-width: 100%; display: block; }
   margin-bottom: 8px;
 }
 
+.days-counter{
+  font-family: var(--font-hand);
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  color: var(--pink-2, #ff8fbd);
+  text-shadow: 0 0 14px rgba(255, 143, 189, 0.35);
+  margin-bottom: 18px;
+}
+
 /* =========================================================
    SCENE 4 — FINAL
    ========================================================= */

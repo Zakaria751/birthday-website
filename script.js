@@ -10,6 +10,9 @@ const CONFIG = {
 
   friendName: "Saloma",
 
+  // start date used to auto-calculate the live friendship day counter below
+  friendshipStart: "2023-09-29",
+
   friendImage: "./images/last.jpeg",
 
   music: "./Audio/Birthday song",
@@ -100,6 +103,7 @@ function init(){
   initGift();
   initFinalTapToContinue();
   initIntroTapToContinue();
+  initDaysCounter();
 
   requestAnimationFrame(() => initIntro());
 }
@@ -362,6 +366,25 @@ function revealBirthdayScene(){
 /* =========================================================
    SCENE 3 — MEMORIES
    ========================================================= */
+/* -----------------------------------------------------------
+   LIVE FRIENDSHIP DAY COUNTER
+   Recalculates from CONFIG.friendshipStart every time the page
+   loads, so the number is always correct — never edit it by hand.
+   ----------------------------------------------------------- */
+function initDaysCounter(){
+  const el = document.getElementById("daysCounter");
+  if (!el) return;
+
+  const start = new Date(CONFIG.friendshipStart + "T00:00:00");
+  const now = new Date();
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const days = Math.floor((now - start) / msPerDay);
+
+  if (isNaN(days) || days < 0) return;
+
+  el.textContent = `${days} days of friendship, and still counting 💗`;
+}
+
 function buildMemoryCards(){
   const grid = document.getElementById("memoryGrid");
   grid.innerHTML = "";
