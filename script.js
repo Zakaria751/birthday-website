@@ -52,6 +52,7 @@ const STORY = {
     { files: ["1.jpeg", "2.jpeg", "10.jpeg"], caption: "To more happy moments together" },
     { files: ["3.jpeg", "15.jpeg"], caption: "for more sleepy lomy lomy salomy" },
     { files: ["5.jpeg", "17.jpeg", "18.jpeg", "19.jpeg"], caption: "she is so pretty that her soul refuses to let go of her beauty" },
+    { files: ["lol.jpeg"], caption: "Look how pretty and silly you are 💗" },
     { files: ["20.jpeg"], caption: "My most gorgeous divorced dad 😅" },
     { files: ["21.jpeg", "22.jpeg"], caption: "THE PRETTIEST TO EVER TOUCH THE LANDS OF SPAIN" },
     { files: ["23.jpeg"], caption: "Literally me" }
