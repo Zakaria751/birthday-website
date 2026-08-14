@@ -367,22 +367,40 @@ function revealBirthdayScene(){
    SCENE 3 — MEMORIES
    ========================================================= */
 /* -----------------------------------------------------------
-   LIVE FRIENDSHIP DAY COUNTER
-   Recalculates from CONFIG.friendshipStart every time the page
-   loads, so the number is always correct — never edit it by hand.
+   LIVE FRIENDSHIP COUNTER
+   Recalculates from CONFIG.friendshipStart every second, so the
+   days/hours/minutes/seconds are always live and accurate —
+   never edit the numbers by hand, only friendshipStart above.
    ----------------------------------------------------------- */
 function initDaysCounter(){
-  const el = document.getElementById("daysCounter");
-  if (!el) return;
+  const daysEl = document.getElementById("counterDays");
+  const hoursEl = document.getElementById("counterHours");
+  const minsEl = document.getElementById("counterMins");
+  const secsEl = document.getElementById("counterSecs");
+  if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
   const start = new Date(CONFIG.friendshipStart + "T00:00:00");
-  const now = new Date();
-  const msPerDay = 1000 * 60 * 60 * 24;
-  const days = Math.floor((now - start) / msPerDay);
 
-  if (isNaN(days) || days < 0) return;
+  function pad(n){ return String(n).padStart(2, "0"); }
 
-  el.textContent = `${days} days of friendship, and still counting 💗`;
+  function tick(){
+    const diffMs = Date.now() - start.getTime();
+    if (isNaN(diffMs) || diffMs < 0) return;
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    daysEl.textContent = days;
+    hoursEl.textContent = pad(hours);
+    minsEl.textContent = pad(mins);
+    secsEl.textContent = pad(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
 }
 
 function buildMemoryCards(){

@@ -152,7 +152,29 @@
       <div class="memories-close">
         <p class="closing-line" id="closingLine">And somehow, through all of it, we're still here. <span class="tear-emoji">🥹</span> <span class="heart-emoji">💗</span></p>
         <p class="closing-sub">Let's make a lot more memories.</p>
-        <p class="days-counter" id="daysCounter"></p>
+
+        <div class="friend-counter" id="friendCounter" aria-live="off">
+          <p class="friend-counter-label">Friends for</p>
+          <div class="friend-counter-cards">
+            <div class="counter-card">
+              <span class="counter-num" id="counterDays">0</span>
+              <span class="counter-unit">Days</span>
+            </div>
+            <div class="counter-card">
+              <span class="counter-num" id="counterHours">00</span>
+              <span class="counter-unit">Hours</span>
+            </div>
+            <div class="counter-card">
+              <span class="counter-num" id="counterMins">00</span>
+              <span class="counter-unit">Mins</span>
+            </div>
+            <div class="counter-card">
+              <span class="counter-num" id="counterSecs">00</span>
+              <span class="counter-unit">Secs</span>
+            </div>
+          </div>
+          <p class="friend-counter-sub">and still counting 💗</p>
+        </div>
         <button class="continue-btn continue-btn--ghost" id="toFinalBtn" type="button">
           <span>One more thing&hellip;</span> <span class="sparkle-char">✨</span>
         </button>
