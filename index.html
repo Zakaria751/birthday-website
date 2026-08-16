@@ -187,12 +187,13 @@
   <section id="final-scene" class="scene" aria-label="A final birthday moment">
     <div class="floaty-field floaty-field--calm" id="floatyFieldFinal" aria-hidden="true"></div>
 
+
     <div class="scene-inner final-inner">
 
       <div class="final-visual">
         <div class="final-photo-wrap">
           <div class="final-photo-glow" aria-hidden="true"></div>
-          <img class="final-photo final-photo--big" id="friendPhoto" src="./images/last.jpeg" alt="Birthday girl" />
+          <img class="final-photo final-photo--big" id="friendPhoto" src="./images/last.jpeg" alt="Birthday girl" decoding="async" />
           <div class="final-photo-fallback" id="photoFallback" aria-hidden="true">
             <svg viewBox="0 0 100 100" width="46%" height="46%">
               <circle cx="50" cy="38" r="18" fill="#fff1f7" opacity="0.9"/>
@@ -252,7 +253,7 @@
 <!-- fullscreen photo viewer, shared across the memories scene -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close photo">&times;</button>
-  <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+  <img class="lightbox-img" id="lightboxImg" src="" alt="" decoding="async" />
 </div>
 
 <!-- persistent audio, single instance for the whole site -->

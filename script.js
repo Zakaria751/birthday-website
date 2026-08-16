@@ -56,6 +56,7 @@ const STORY = {
     { files: ["1.jpeg", "2.jpeg", "10.jpeg"], caption: "To more happy moments together" },
     { files: ["pretty.jpeg"], caption: "OMG SO PRETTYYY" },
     { files: ["adorable.jpeg"], caption: "And so adorable even in her most random moments" },
+    { files: ["14.jpeg"], caption: "The most affectionate heart to ever exist" },
     { files: ["3.jpeg", "15.jpeg"], caption: "for more sleepy lomy lomy salomy" },
     { files: ["normal.jpeg"], caption: "She thinks that she is just pretty BUT SHE IS MARVELOUS" },
     { files: ["katkota.jpeg"], caption: "Sooooo katkota" },
@@ -71,6 +72,9 @@ const STORY = {
   // so raise randomsMaxIndex if there end up being more than this many photos.
   randomsTitle: "More randoms of zeko's best person",
   randomsMaxIndex: 40,
+
+  // extra random photos that don't follow the numbered naming pattern
+  randomsExtra: ["r1.jpeg", "r2.jpeg", "r3.jpeg", "r4.jpeg", "r5.jpeg", "r6.jpeg", "r7.jpeg"],
 
   // shown big on the final scene, after "One more thing…"
   lastImage: "last.jpeg"
@@ -461,7 +465,7 @@ function buildPhotoGroupBlock(g){
   el.className = "memory-card memory-card--photos";
   const photosHtml = g.files.map((f) => `
     <div class="story-photo">
-      <img src="${STORY.imagesFolder}${f}" alt="" loading="lazy" />
+      <img src="${STORY.imagesFolder}${f}" alt="" loading="lazy" decoding="async" />
     </div>
   `).join("");
 
@@ -489,10 +493,17 @@ function buildRandomsBlock(){
     if (usedNumbers.has(i)) continue;
     thumbsHtml += `
       <div class="story-photo story-photo--thumb">
-        <img src="${STORY.imagesFolder}${i}.jpeg" alt="" loading="lazy" />
+        <img src="${STORY.imagesFolder}${i}.jpeg" alt="" loading="lazy" decoding="async" />
       </div>
     `;
   }
+  (STORY.randomsExtra || []).forEach((f) => {
+    thumbsHtml += `
+      <div class="story-photo story-photo--thumb">
+        <img src="${STORY.imagesFolder}${f}" alt="" loading="lazy" decoding="async" />
+      </div>
+    `;
+  });
 
   el.innerHTML = `
     <h3 class="randoms-title">${STORY.randomsTitle}</h3>
@@ -846,15 +857,18 @@ function initCursorSparkle(){
   const cursor = document.getElementById("cursorSparkle");
   let raf = null;
   let tx = 0, ty = 0, cx = 0, cy = 0;
-  let active = false;
+  let idleTimer = null;
 
   window.addEventListener("mousemove", (e) => {
     tx = e.clientX; ty = e.clientY;
-    if (!active){
-      active = true;
-      cursor.classList.add("active");
-      loop();
-    }
+    cursor.classList.add("active");
+
+    if (!raf) loop();
+
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (raf){ cancelAnimationFrame(raf); raf = null; }
+    }, 1200);
   }, { passive: true });
 
   function loop(){
