@@ -54,7 +54,11 @@ const STORY = {
   photoGroups: [
     { files: ["aww.jpeg"], caption: "Awww saloma is so sad… LETS CHANGE THAT FROWN INTO A SMILE" },
     { files: ["1.jpeg", "2.jpeg", "10.jpeg"], caption: "To more happy moments together" },
+    { files: ["pretty.jpeg"], caption: "OMG SO PRETTYYY" },
+    { files: ["adorable.jpeg"], caption: "And so adorable even in her most random moments" },
     { files: ["3.jpeg", "15.jpeg"], caption: "for more sleepy lomy lomy salomy" },
+    { files: ["normal.jpeg"], caption: "She thinks that she is just pretty BUT SHE IS MARVELOUS" },
+    { files: ["katkota.jpeg"], caption: "Sooooo katkota" },
     { files: ["5.jpeg", "17.jpeg", "18.jpeg", "19.jpeg"], caption: "she is so pretty that her soul refuses to let go of her beauty" },
     { files: ["lol.jpeg"], caption: "Look how pretty and silly you are 💗" },
     { files: ["20.jpeg"], caption: "My most gorgeous divorced dad 😅" },
@@ -362,6 +366,7 @@ function revealBirthdayScene(){
   // gift + message choreography is user-driven (tap to open),
   // but we make sure the hint is visible and floaty field is alive.
 }
+
 
 /* =========================================================
    SCENE 3 — MEMORIES
