@@ -156,6 +156,7 @@ img{ max-width: 100%; display: block; }
 #intro-scene{ background: var(--dark-1); }
 #birthday-scene{ background: var(--grad-dream); }
 #memories-scene{ background: var(--grad-dream-2); }
+#flowers-scene{ background: radial-gradient(120% 100% at 50% 0%, #1a1330 0%, #0d0818 55%, #06040c 100%); }
 #final-scene{ background: linear-gradient(180deg, var(--dark-1) 0%, var(--dark-2) 100%); }
 
 /* =========================================================
@@ -898,6 +899,69 @@ img{ max-width: 100%; display: block; }
   color: var(--white-1);
 }
 
+/* =========================================================
+   HAPPY BIRTHDAY BANNER — distinguished from the memory cards
+   ========================================================= */
+.birthday-banner-frame{
+  width: min(100%, 640px);
+  margin: clamp(22px, 4.5vh, 42px) auto clamp(10px, 2vh, 20px);
+  padding: 3px;
+  border-radius: 22px;
+  background: var(--grad-heart);
+  box-shadow:
+    0 18px 46px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,255,255,0.06);
+  animation: bannerGlow 4.5s ease-in-out infinite;
+}
+@keyframes bannerGlow{
+  0%, 100%{ box-shadow: 0 18px 46px rgba(0,0,0,0.5), 0 0 22px rgba(255,111,174,0.25); }
+  50%{ box-shadow: 0 18px 46px rgba(0,0,0,0.5), 0 0 40px rgba(255,111,174,0.55); }
+}
+
+.birthday-banner{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 19px;
+  overflow: hidden;
+  background: var(--dark-2);
+  cursor: pointer;
+}
+.birthday-banner:focus-visible{ outline: 2px solid var(--pink-2); outline-offset: 2px; }
+
+.birthday-banner-img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.birthday-banner-overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11,7,16,0.05) 0%, rgba(11,7,16,0.35) 55%, rgba(11,7,16,0.82) 100%);
+}
+
+.birthday-banner-text{
+  position: absolute;
+  left: 50%;
+  bottom: clamp(14px, 5%, 26px);
+  transform: translateX(-50%);
+  margin: 0;
+  width: 92%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  font-size: clamp(1.6rem, 8vw, 2.9rem);
+  color: var(--white-1);
+  text-shadow:
+    0 0 24px rgba(255, 111, 174, 0.75),
+    0 4px 16px rgba(0,0,0,0.65);
+}
+
 .memories-close{
   display: flex;
   flex-direction: column;
@@ -1409,9 +1473,6 @@ body.lightbox-open{ overflow: hidden; }
   .scene-inner{ gap: 14px !important; }
 }
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{

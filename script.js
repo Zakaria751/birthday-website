@@ -96,6 +96,7 @@ const state = {
 function init(){
   buildCandles();
   buildMemoryCards();
+  initBirthdayBanner();
   wireImageFallbacks();
   initMusic();
   initInteractions();
@@ -410,6 +411,20 @@ function initDaysCounter(){
 
   tick();
   setInterval(tick, 1000);
+}
+
+function initBirthdayBanner(){
+  const banner = document.getElementById("birthdayBanner");
+  const img = banner ? banner.querySelector("img") : null;
+  if (!banner || !img) return;
+
+  banner.addEventListener("click", () => openLightbox(img.src));
+  banner.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      openLightbox(img.src);
+    }
+  });
 }
 
 function buildMemoryCards(){
