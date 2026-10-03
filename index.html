@@ -183,6 +183,35 @@
     </div>
   </section>
 
+  <!-- ============ SCENE 3.5 — LITTLE GAME ============ -->
+  <section id="game-scene" class="scene" aria-label="A little game">
+    <div class="floaty-field" id="floatyFieldGame" aria-hidden="true"></div>
+
+    <div class="scene-inner game-inner" id="gameInner">
+
+      <div class="game-frame" id="gameFrame">
+        <img class="game-img" id="gameImg" src="./images/up1.jpg" alt="" />
+        <div class="game-placeholder" aria-hidden="true">💗</div>
+        <p class="game-overlay-text" id="gameOverlay" aria-live="polite">I LOVE YOU MOOOOORE &lt;3</p>
+        <div class="burst-field" id="gameBurstField" aria-hidden="true"></div>
+      </div>
+
+      <div class="game-actions" id="gameActions">
+        <button class="game-btn game-btn--main" id="whatBtn" type="button">What is it ?</button>
+
+        <div class="game-choice" id="gameChoice" hidden>
+          <button class="game-btn game-btn--yes" id="yesBtn" type="button">Yes</button>
+          <button class="game-btn game-btn--no" id="noBtn" type="button">No</button>
+        </div>
+
+        <button class="continue-btn" id="gameContinueBtn" type="button" hidden>
+          <span>Continue</span> <span class="heart-emoji">💗</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ============ SCENE 4 — FINAL ============ -->
   <section id="final-scene" class="scene" aria-label="A final birthday moment">
     <div class="floaty-field floaty-field--calm" id="floatyFieldFinal" aria-hidden="true"></div>

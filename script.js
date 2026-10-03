@@ -73,6 +73,19 @@ const STORY = {
 };
 
 /* -----------------------------------------------------------
+   GAME — the little yes/no game between memories and the final scene.
+   Put these 4 photos inside ./images/ with exactly these names.
+   ----------------------------------------------------------- */
+const GAME = {
+  folder: "./images/",
+  start: "up1.jpg",       // first photo, with the "What is it ?" button
+  question: "up.jpg",     // photo shown with the Yes / No choice
+  sure: "sure.jpg",       // photo shown after the first "No"
+  love: "love.jpg",       // photo shown after "Yes"
+  growStep: 0.3           // how much "Yes" grows each time "No" runs away
+};
+
+/* -----------------------------------------------------------
    GLOBAL STATE
    ----------------------------------------------------------- */
 const state = {
@@ -95,12 +108,14 @@ function init(){
   initLightbox();
   createFloatyField(document.getElementById("floatyFieldBirthday"), 14);
   createFloatyField(document.getElementById("floatyFieldFinal"), 6);
+  createFloatyField(document.getElementById("floatyFieldGame"), 8);
 
   // scene navigation
   document.getElementById("continueBtn").addEventListener("click", () => transitionToScene("memories-scene"));
-  document.getElementById("toFinalBtn").addEventListener("click", () => transitionToScene("final-scene"));
+  document.getElementById("toFinalBtn").addEventListener("click", () => transitionToScene("game-scene"));
 
   initGift();
+  initGame();
   initFinalTapToContinue();
   initIntroTapToContinue();
   initDaysCounter();
@@ -291,6 +306,7 @@ function transitionToScene(sceneId){
   // trigger scene-specific reveal choreography
   if (sceneId === "birthday-scene") revealBirthdayScene();
   if (sceneId === "memories-scene") revealMemoriesScene();
+  if (sceneId === "game-scene") revealGameScene();
   if (sceneId === "final-scene") revealFinalScene();
   if (sceneId === "credits-scene") revealCreditsScene();
 }
@@ -319,8 +335,8 @@ function openGift(btn){
   }, showDelay);
 }
 
-function burstFromGift(){
-  const field = document.getElementById("burstField");
+function burstFromGift(fieldId = "burstField"){
+  const field = document.getElementById(fieldId);
   if (!field) return;
   const glyphs = ["💗", "✨", "💫", "🌟", "💖"];
   const count = state.reducedMotion ? 6 : 18;
@@ -570,6 +586,156 @@ function revealMemoriesScene(){
 
   const closingLine = document.getElementById("closingLine");
   setTimeout(() => closingLine.classList.add("show"), 200 + cards.length * baseDelay + 400);
+}
+
+/* =========================================================
+   SCENE 3.5 — LITTLE GAME
+   What is it ? -> Yes / No -> (No -> sure.jpg -> No runs away,
+   Yes keeps growing) -> Yes -> love.jpg + message + Continue
+   ========================================================= */
+function revealGameScene(){
+  // nothing to choreograph — the scene is fully user-driven
+}
+
+function initGame(){
+  const scene = document.getElementById("game-scene");
+  const inner = document.getElementById("gameInner");
+  const frame = document.getElementById("gameFrame");
+  const img = document.getElementById("gameImg");
+  const overlay = document.getElementById("gameOverlay");
+  const whatBtn = document.getElementById("whatBtn");
+  const choice = document.getElementById("gameChoice");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const contBtn = document.getElementById("gameContinueBtn");
+  if (!scene || !img || !whatBtn || !yesBtn || !noBtn) return;
+
+  let stage = "start";      // start -> question -> sure -> love
+  let dodges = 0;
+
+  // preload every photo so swaps feel instant
+  [GAME.start, GAME.question, GAME.sure, GAME.love].forEach((f) => {
+    const pre = new Image();
+    pre.src = GAME.folder + f;
+  });
+
+  // if a photo file is missing, show a soft placeholder instead of a broken icon
+  img.addEventListener("error", () => frame.classList.add("is-missing"));
+  img.addEventListener("load", () => frame.classList.remove("is-missing"));
+
+  function setPhoto(file){
+    const swapMs = state.reducedMotion ? 0 : 320;
+    img.classList.add("swap");
+    setTimeout(() => {
+      img.src = GAME.folder + file;
+      requestAnimationFrame(() => img.classList.remove("swap"));
+    }, swapMs);
+  }
+
+  /* --- step 1: What is it ? --- */
+  whatBtn.addEventListener("click", () => {
+    if (stage !== "start") return;
+    stage = "question";
+    whatBtn.hidden = true;
+    choice.hidden = false;
+    setPhoto(GAME.question);
+  });
+
+  /* --- Yes: the happy ending --- */
+  yesBtn.addEventListener("click", () => {
+    if (stage !== "question" && stage !== "sure") return;
+    stage = "love";
+    choice.hidden = true;
+    setPhoto(GAME.love);
+    setTimeout(() => {
+      overlay.classList.add("show");
+      burstFromGift("gameBurstField");
+      contBtn.hidden = false;
+    }, state.reducedMotion ? 100 : 450);
+  });
+
+  /* --- No: first press -> sure.jpg, after that it runs away --- */
+  noBtn.addEventListener("click", (e) => {
+    if (stage === "question"){
+      stage = "sure";
+      setPhoto(GAME.sure);
+      return;
+    }
+    if (stage === "sure"){
+      e.preventDefault();
+      dodge();           // caught it? it still escapes
+    }
+  });
+
+  // mouse: it bolts as soon as the pointer gets near
+  noBtn.addEventListener("pointerenter", (e) => {
+    if (stage === "sure" && e.pointerType === "mouse") dodge();
+  });
+  // touch: it bolts the moment a finger lands on it
+  noBtn.addEventListener("touchstart", (e) => {
+    if (stage !== "sure") return;
+    e.preventDefault();
+    dodge();
+  }, { passive: false });
+
+  function dodge(){
+    dodges++;
+    moveNoButton();
+    growYes();
+  }
+
+  function growYes(){
+    const sceneRect = scene.getBoundingClientRect();
+    const baseW = yesBtn.offsetWidth || 120;
+    const baseH = yesBtn.offsetHeight || 48;
+    // never let Yes outgrow the screen
+    const maxByWidth = (sceneRect.width * 0.92) / baseW;
+    const maxByHeight = (sceneRect.height * 0.6) / baseH;
+    const grow = Math.min(1 + dodges * GAME.growStep, maxByWidth, maxByHeight);
+    yesBtn.style.setProperty("--grow", grow.toFixed(2));
+  }
+
+  function overlaps(a, b, pad){
+    return !(a.right + pad < b.left || a.left - pad > b.right ||
+             a.bottom + pad < b.top || a.top - pad > b.bottom);
+  }
+
+  function moveNoButton(){
+    const sceneRect = scene.getBoundingClientRect();
+    const innerRect = inner.getBoundingClientRect();
+    const w = noBtn.offsetWidth;
+    const h = noBtn.offsetHeight;
+    const margin = 14;
+
+    const minX = sceneRect.left + margin;
+    const maxX = sceneRect.right - w - margin;
+    const minY = sceneRect.top + margin + 8;
+    const maxY = sceneRect.bottom - h - margin;
+    if (maxX <= minX || maxY <= minY) return;
+
+    const prev = noBtn.getBoundingClientRect();
+    const music = document.getElementById("music-toggle");
+    const musicRect = music ? music.getBoundingClientRect() : null;
+
+    // pick a random spot that is away from where it was and doesn't hide behind the music button
+    let x = minX, y = minY;
+    for (let i = 0; i < 12; i++){
+      x = minX + Math.random() * (maxX - minX);
+      y = minY + Math.random() * (maxY - minY);
+      const box = { left: x, top: y, right: x + w, bottom: y + h };
+      const farEnough = Math.hypot(x - prev.left, y - prev.top) > 120;
+      const clearOfMusic = !musicRect || !overlaps(box, musicRect, 10);
+      if (farEnough && clearOfMusic) break;
+    }
+
+    // position relative to the game container (the button's offset parent)
+    noBtn.classList.add("dodging");
+    noBtn.style.left = (x - innerRect.left) + "px";
+    noBtn.style.top = (y - innerRect.top) + "px";
+  }
+
+  /* --- Continue -> the "one more thing" scene --- */
+  contBtn.addEventListener("click", () => transitionToScene("final-scene"));
 }
 
 /* =========================================================

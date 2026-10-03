@@ -156,6 +156,7 @@ img{ max-width: 100%; display: block; }
 #intro-scene{ background: var(--dark-1); }
 #birthday-scene{ background: var(--grad-dream); }
 #memories-scene{ background: var(--grad-dream-2); }
+#game-scene{ background: var(--grad-dream); }
 #final-scene{ background: linear-gradient(180deg, var(--dark-1) 0%, var(--dark-2) 100%); }
 
 /* =========================================================
@@ -1382,6 +1383,143 @@ img{ max-width: 100%; display: block; }
 .lightbox-close:hover{ background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.35); transform: scale(1.06); }
 
 body.lightbox-open{ overflow: hidden; }
+
+
+/* =========================================================
+   SCENE 3.5 — LITTLE GAME
+   ========================================================= */
+
+.game-inner{
+  gap: clamp(22px, 4.5vh, 38px);
+  justify-content: center;
+  min-height: 100%;
+}
+.game-inner [hidden]{ display: none !important; }
+
+/* framed photo */
+.game-frame{
+  position: relative;
+  padding: 8px;
+  border-radius: 26px;
+  background: var(--grad-heart);
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,0.05),
+    0 22px 50px rgba(255, 111, 174, 0.3);
+  animation: photoFloat 5.5s ease-in-out infinite;
+}
+.game-img{
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(78vw, 340px);
+  max-height: 46svh;
+  object-fit: contain;
+  border-radius: 19px;
+  background: rgba(255,255,255,0.04);
+  transition: opacity 0.32s ease, transform 0.32s var(--ease-silk);
+}
+.game-img.swap{ opacity: 0; transform: scale(0.96); }
+
+/* shown only when a photo file is missing */
+.game-placeholder{
+  display: none;
+  width: min(70vw, 300px);
+  aspect-ratio: 4 / 5;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.4rem;
+  border-radius: 19px;
+  background: linear-gradient(135deg, rgba(255,154,198,0.35), rgba(201,182,255,0.35));
+}
+.game-frame.is-missing .game-img{ display: none; }
+.game-frame.is-missing .game-placeholder{ display: flex; }
+
+/* text written on top of the love photo */
+.game-overlay-text{
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  padding: 46px 14px 18px;
+  border-radius: 0 0 19px 19px;
+  background: linear-gradient(180deg, transparent, rgba(11, 7, 16, 0.78));
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 6.2vw, 2rem);
+  line-height: 1.15;
+  color: var(--white-1);
+  text-shadow: 0 2px 14px rgba(255, 111, 174, 0.7), 0 1px 3px rgba(0,0,0,0.5);
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  transition: opacity 0.7s var(--ease-silk), transform 0.7s var(--ease-pop);
+  pointer-events: none;
+}
+.game-overlay-text.show{ opacity: 1; transform: translateY(0) scale(1); }
+
+/* buttons */
+.game-actions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  width: 100%;
+}
+.game-choice{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  animation: gameChoiceIn 0.5s var(--ease-pop) backwards;
+}
+@keyframes gameChoiceIn{
+  from{ opacity: 0; transform: translateY(10px) scale(0.92); }
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.game-btn{
+  position: relative;
+  padding: 14px 36px;
+  border-radius: 999px;
+  color: var(--white-1);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition: transform 0.35s var(--ease-pop), box-shadow 0.35s ease, left 0.3s var(--ease-out), top 0.3s var(--ease-out);
+}
+.game-btn--main,
+.game-btn--yes{
+  background: var(--grad-pill);
+  box-shadow: 0 10px 24px rgba(255, 111, 174, 0.35), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.game-btn--main:hover{ transform: translateY(-3px) scale(1.035); }
+.game-btn--main:active{ transform: scale(0.97); }
+
+/* Yes grows (via --grow, set from JS) every time No runs away */
+.game-btn--yes{
+  z-index: 3;
+  transform: scale(var(--grow, 1));
+  transform-origin: center;
+  transition: transform 0.45s var(--ease-pop), box-shadow 0.35s ease;
+}
+
+.game-btn--no{
+  z-index: 5;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+/* once it starts running away it is placed with left/top from JS */
+.game-btn--no.dodging{ position: absolute; }
+
+@media (max-height: 560px) and (orientation: landscape){
+  .game-img{ max-height: 40svh; }
+}
 
 /* =========================================================
    RESPONSIVE FINE-TUNING
